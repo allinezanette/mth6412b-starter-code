@@ -10,7 +10,9 @@ Exemple :
 		node1 = Node("Joe", 3.14)
 		node2 = Node("Steve", exp(1))
 		node3 = Node("Jill", 4.12)
-		G = Graph("Ick", [node1, node2, node3])
+		edge1 = Edge("Bob", 5.0, "Joe", 3.14, "Steve", exp(1))
+		edge2 = Edge("Claire", 6.1, "Steve", exp(1), "Jill", 4.12)
+		G = Graph("Ick", [node1, node2, node3], [edge1, edge2])
 
 Attention, tous les noeuds doivent avoir des données de même type.
 """
@@ -25,6 +27,12 @@ function add_node!(graph::Graph{T}, node::Node{T}) where T
 	graph
 end
 
+"""Ajoute un edge au graphe."""
+function add_edge!(graph::Graph{T}, edge::Edge{T,C,D}) where T,C,D
+	push!(graph.edges, edge)
+	graph
+end
+
 # on présume que tous les graphes dérivant d'AbstractGraph
 # posséderont des champs `name` et `nodes`.
 
@@ -36,6 +44,12 @@ nodes(graph::AbstractGraph) = graph.nodes
 
 """Renvoie le nombre de noeuds du graphe."""
 nb_nodes(graph::AbstractGraph) = length(graph.nodes)
+
+"""Renvoie la liste des edges du graphe."""
+edges(graph::AbstractGraph) = graph.edges
+
+"""Renvoie le nombre de edges du graphe."""
+nb_edges(graph::AbstractGraph) = length(graph.edges)
 
 """Affiche un graphe"""
 function show(graph::Graph)
