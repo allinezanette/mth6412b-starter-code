@@ -172,7 +172,7 @@ function read_edges(header::Dict{String}{String}, filename::String)
         end
     end
     close(file)
-    """return edges and weights"""
+    """return edges and weightsof edges"""
     return edges, weights
 end
 
