@@ -13,6 +13,7 @@ Exemple :
 		G = Graph("Ick", [node1, node2, node3], [edge1, edge2])
 Attention, tous les noeuds doivent avoir des données de même type.
 """
+""" """
 mutable struct Graph{T,C,D} <: AbstractGraph{T,C,D}
 	name::String
 	nodes::Vector{Node{T}}
