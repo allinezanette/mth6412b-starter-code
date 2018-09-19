@@ -1,56 +1,57 @@
 import Base.show
 
-"""Type abstrait dont d'autres types de graphes dériveront."""
-abstract type AbstractGraph{T,C,D} end
+"""Abstract type from which other types of graphs are deriving."""
+abstract type AbstractGraph{T} end
 
-"""Type representant un graphe comme un ensemble de noeuds.
-Exemple :
-		node1 = Node("Joe", 3.14)
-		node2 = Node("Steve", exp(1))
-		node3 = Node("Jill", 4.12)
-		edge1 = Edge("Bob", 5.0, "Joe", 3.14, "Steve", exp(1))
-		edge2 = Edge("Claire", 6.1, "Steve", exp(1), "Jill", 4.12)
-		G = Graph("Ick", [node1, node2, node3], [edge1, edge2])
-Attention, tous les noeuds doivent avoir des données de même type.
+"""Type representing a graph as a group of nodes and edges.
+Example :
+
+node1 = Node("Joe", 3.14)
+node2 = Node("Steve", exp(1))
+node3 = Node("Jill", 4.12)
+edge1 = Edge([node1,node2], 1)
+edge2 = Edge([node2,node3], 2)
+G = Graph("Ick", [node1, node2, node3], [edge1, edge2])
+Atention, all the nodes have to have data of the same type.
+
 """
-""" """
-mutable struct Graph{T,C,D} <: AbstractGraph{T,C,D}
+mutable struct Graph{T} <: AbstractGraph{T}
 	name::String
 	nodes::Vector{Node{T}}
-	edges::Vector{Edge{T,C,D}}
+	edges::Vector{Edge{T}}
 end
 
-"""Ajoute un noeud au graphe."""
-function add_node!(graph::Graph{T,C,D}, node::Node{T}) where {T,C,D}
+"""Add a node to the graph."""
+function add_node!(graph::Graph{T}, node::Node{T}) where T
 	push!(graph.nodes, node)
 	graph
 end
 
-"""Ajoute un edge au graphe."""
-function add_edge!(graph::Graph{T,C,D}, edge::Edge{T,C,D}) where {T,C,D}
+"""Add an edge to the graph."""
+function add_edge!(graph::Graph{T}, edge::Edge{T}) where T
 	push!(graph.edges, edge)
 	graph
 end
 
-# on présume que tous les graphes dérivant d'AbstractGraph
-# posséderont des champs `name` et `nodes`.
+# we assume that all the graphs coming from AbtractGraph have 'name', 'nodes'
+# and 'edges'.
 
-"""Renvoie le nom du graphe."""
+"""return the name of the graph."""
 name(graph::AbstractGraph) = graph.name
 
-"""Renvoie la liste des noeuds du graphe."""
+"""return the list of nodes in the graph."""
 nodes(graph::AbstractGraph) = graph.nodes
 
-"""Renvoie le nombre de noeuds du graphe."""
+"""return the number of nodes in the graph."""
 nb_nodes(graph::AbstractGraph) = length(graph.nodes)
 
-"""Renvoie la liste des edges du graphe."""
+"""return the list of edges in the graph."""
 edges(graph::AbstractGraph) = graph.edges
 
-"""Renvoie le nombre de edges du graphe."""
+"""return the number of edges in the graph."""
 nb_edges(graph::AbstractGraph) = length(graph.edges)
 
-"""Affiche un graphe"""
+"""Displaying a graph"""
 function show(graph::Graph)
 	graph_name = name(graph)
 	graph_nb_nodes = nb_nodes(graph)
