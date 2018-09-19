@@ -1,34 +1,32 @@
 import Base.show
 
 """Type abstrait dont d'autres types de graphes dériveront."""
-abstract type AbstractGraph{T} end
+abstract type AbstractGraph{T,C,D} end
 
 """Type representant un graphe comme un ensemble de noeuds.
-
 Exemple :
-
 		node1 = Node("Joe", 3.14)
 		node2 = Node("Steve", exp(1))
 		node3 = Node("Jill", 4.12)
 		edge1 = Edge("Bob", 5.0, "Joe", 3.14, "Steve", exp(1))
 		edge2 = Edge("Claire", 6.1, "Steve", exp(1), "Jill", 4.12)
 		G = Graph("Ick", [node1, node2, node3], [edge1, edge2])
-
 Attention, tous les noeuds doivent avoir des données de même type.
 """
-mutable struct Graph{T} <: AbstractGraph{T}
+mutable struct Graph{T,C,D} <: AbstractGraph{T,C,D}
 	name::String
 	nodes::Vector{Node{T}}
+	edges::Vector{Edge{T,C,D}}
 end
 
 """Ajoute un noeud au graphe."""
-function add_node!(graph::Graph{T}, node::Node{T}) where T
+function add_node!(graph::Graph{T,C,D}, node::Node{T}) where {T,C,D}
 	push!(graph.nodes, node)
 	graph
 end
 
 """Ajoute un edge au graphe."""
-function add_edge!(graph::Graph{T}, edge::Edge{T,C,D}) where T,C,D
+function add_edge!(graph::Graph{T,C,D}, edge::Edge{T,C,D}) where {T,C,D}
 	push!(graph.edges, edge)
 	graph
 end
@@ -53,16 +51,17 @@ nb_edges(graph::AbstractGraph) = length(graph.edges)
 
 """Affiche un graphe"""
 function show(graph::Graph)
-	name = name(graph)
-	nb_nodes = nb_nodes(graph)
-	nb_edges = nb_edges(graph)
-	s = string("Graph ", name, " has ", nb_nodes, " nodes.")
-	n = string("Graph ", name, " has ", nb_edges, " edges.")
+	graph_name = name(graph)
+	graph_nb_nodes = nb_nodes(graph)
+	graph_nb_edges = nb_edges(graph)
+	s = string("Graph ", graph_name, " has ", graph_nb_nodes, " nodes.")
+	n = string("Graph ", graph_name, " has ", graph_nb_edges, " edges.")
 	for node in nodes(graph)
 		s = string(s, "\n", show(node))
 	end
 	for edge in edges(graph)
 		n = string(n, "\n", show(edge))
+	end
 	println(s)
 	println(n)
 end
