@@ -30,4 +30,5 @@ data(node::AbstractNode) = node.data
 function show(node::AbstractNode)
     s = string("Node ", name(node), ", data: ", data(node))
     println(s)
+    """ """
 end
