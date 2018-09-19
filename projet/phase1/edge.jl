@@ -1,42 +1,31 @@
 import Base.show
 
-abstract type AbstractEdge{T,C,D} end
+abstract type AbstractEdge{T} end
 
-mutable struct Edge{T,C,D} <: AbstractEdge{T,C,D}
-    nameedge::String
-    weightedge::T
-    node1name::String
-    node1data::C
-    node2name::String
-    node2data::D
+"""
+Example:
 
+    node1 = Node("Joe", 3.14)
+    node2 = Node("Steve", exp(1))
+    edge1 = Edge([node1,node2], 1)
+
+"""
+
+mutable struct Edge{T} <: AbstractEdge{T}
+    bounds::Vector{Node{T}}
+    weight::Int64
 end
 
-# on présume que tous les edges dérivant d'AbstractEdge
-# posséderont des champs `name` et `weight`.
+# we assume that all the edges coming from AbstractEdge have 'name' and 'weight'.
 
-"""Renvoie le nom du edge."""
-nameedge(edge::AbstractEdge) = edge.nameedge
+"""return the bounds of the edge."""
+bounds_edge(edge::AbstractEdge) = name.(edge.bounds)
 
-"""Renvoie les donnees contenues dans le edge."""
-weightedge(edge::AbstractEdge) = edge.weightedge
+"""Return the weight of the edge."""
+weight(edge::AbstractEdge) = edge.weight
 
-"""Renvoie le nom du node1."""
-node1name(edge::AbstractEdge) = edge.node1name
-
-"""Renvoie le donnees du node1."""
-node1data(edge::AbstractEdge) = edge.node1data
-
-"""Renvoie le nom du node2."""
-node2name(edge::AbstractEdge) = edge.node2name
-
-"""Renvoie le donnees du node2."""
-node2data(edge::AbstractEdge) = edge.node2data
-
-"""Affiche un edge"""
+"""displaying an edge"""
 function show(edge::AbstractEdge)
-    s = string("Node1: ", node1name(edge), " data: ", node1data(edge),
-    " Node2: ", node2name(edge), " data: ", node2data(edge),
-    " Edge ", nameedge(edge), ", weight: ", weightedge(edge))
+    s = string("Edge: ", bounds_edge(edge), ", weight: ", weight(edge))
     println(s)
 end
