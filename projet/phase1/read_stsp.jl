@@ -138,7 +138,7 @@ function read_edges(header::Dict{String}{String}, filename::String)
                         elseif edge_weight_format in ["UPPER_DIAG_COL", "LOWER_DIAG_ROW"]
                             edge = (i, k, parse(Int64,data[j]))
                         elseif edge_weight_format == "FULL_MATRIX"
-                            edge = (k, i, pare(Int6,data[j]))
+                            edge = (k, i, parse(Int6,data[j]))
                         else
                             warn("Unknown format - function read_edges")
                         end
