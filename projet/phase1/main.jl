@@ -17,5 +17,6 @@ for i in keys(Data_nodes)
     push!(nod,node)
 end
 
-#=Calling the Array containing the nodes=#
-nod
+#=Calling the Array containing the nodes and the Array containing the edges=#
+return nod
+return Data_edges
