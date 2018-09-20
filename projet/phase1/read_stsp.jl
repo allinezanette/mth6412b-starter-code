@@ -94,14 +94,13 @@ end
 function read_edges(header::Dict{String}{String}, filename::String)
 
     edges = []
-    weights = []
     edge_weight_format = header["EDGE_WEIGHT_FORMAT"]
     known_edge_weight_formats = ["FULL_MATRIX", "UPPER_ROW", "LOWER_ROW",
     "UPPER_DIAG_ROW", "LOWER_DIAG_ROW", "UPPER_COL", "LOWER_COL",
     "UPPER_DIAG_COL", "LOWER_DIAG_COL"]
 
     if !(edge_weight_format in known_edge_weight_formats)
-        return edges, weights
+        return edges
     end
 
     file = open(filename, "r")
@@ -124,32 +123,26 @@ function read_edges(header::Dict{String}{String}, filename::String)
             if edge_weight_section
                 data = split(line)
                 n_data = length(data)
-                start = 0
+                start = 1
                 while n_data > 0
                     n_on_this_line = min(n_to_read, n_data)
 
-                    for j = start:start + n_on_this_line
+                    for j = start:n_on_this_line
                         n_edges = n_edges + 1
                         if edge_weight_format in ["UPPER_ROW", "LOWER_COL"]
-                            edge = (k, i+k+1)
-                            weight = (k, i+k+1)
+                            edge = (k, i+k+1, parse(Int64,data[j]))
                         elseif edge_weight_format in ["UPPER_DIAG_ROW", "LOWER_DIAG_COL"]
-                            edge = (k, i+k)
-                            weight = (k, i+k)
+                            edge = (k, i+k, parse(Int64,data[j]))
                         elseif edge_weight_format in ["UPPER_COL", "LOWER_ROW"]
-                            edge = (i+k+1, k)
-                            weight = (i+k+1, k)
+                            edge = (i+k+1, k, parse(Int6,data[j]))
                         elseif edge_weight_format in ["UPPER_DIAG_COL", "LOWER_DIAG_ROW"]
-                            edge = (i, k)
-                            weight = (i, k)
+                            edge = (i, k, parse(Int64,data[j]))
                         elseif edge_weight_format == "FULL_MATRIX"
-                            edge = (k, i)
-                            weight = (k, i)
+                            edge = (k, i, pare(Int6,data[j]))
                         else
                             warn("Unknown format - function read_edges")
                         end
                         push!(edges, edge)
-                        push!(weights,weight)
                         i += 1
                     end
 
@@ -172,8 +165,7 @@ function read_edges(header::Dict{String}{String}, filename::String)
         end
     end
     close(file)
-    """return edges and weightsof edges"""
-    return edges, weights
+    return edges
 end
 
 """Renvoie les noeuds et les aretes du graphe"""
