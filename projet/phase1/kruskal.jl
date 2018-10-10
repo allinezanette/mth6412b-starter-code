@@ -1,6 +1,5 @@
 import Base.show
 import Base.union!
-import Base.isempty
 using Test
 
 #The dictionary taht will contain nodes parent
@@ -55,6 +54,7 @@ function kruskal!(graph)
         @test isempty(minimum_spanning_tree)==true
 		for i in graph["edges"]
 			push!(l,i)
+			@test l[end]==i
 		end
 		sort!(l)
 	end
@@ -69,6 +69,7 @@ function kruskal!(graph)
 end
 
 #=Testing kruskal using the example giving in the lecture notes: "Arbres de
-recouvrement minimaux" (page!3/13)=#
+recouvrement minimaux" (page!3/13)
 graph=Dict("nodes"=> ['A', 'B', 'C', 'D', 'E', 'F', 'G','H','I'],
 "edges"=> [(4, 'A', 'B'),(8, 'A', 'H'),(8, 'B', 'C'),(11, 'B', 'H'),(7, 'C', 'D'),(4, 'C', 'F'),(2, 'C', 'I'),(9, 'D', 'E'),(10, 'D', 'F'),(10, 'E', 'F'),(2, 'G', 'F'),(6, 'G', 'I'),(1, 'G', 'H'),(7, 'H', 'I')])
+=#
