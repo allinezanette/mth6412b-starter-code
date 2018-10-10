@@ -23,6 +23,7 @@ l_nodes=[]
 #Filling up the list l_nodes with the name of the nodes
 for i in nodes_init
     push!(l_nodes,string(i[1]))
+    @test l_nodes[end]==string(i[1])
 end
 sort!(l_nodes)
 
@@ -36,6 +37,7 @@ l_edges=[]
 #Filling up the list l_edges with the name of the edges
 for k in Data_edges
     push!(l_edges,(trunc(Int64,(k[3])),string(k[1]),string(k[2])))
+    @test l_edges[end]==(trunc(Int64,(k[3])),string(k[1]),string(k[2]))
 end
 sort!(l_edges)
 
