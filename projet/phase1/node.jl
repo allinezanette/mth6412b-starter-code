@@ -18,7 +18,7 @@ mutable struct Node{T} <: AbstractNode{T}
 end
 
 # on présume que tous les noeuds dérivant d'AbstractNode
-# posséderont des champs `name` et `data`.
+# posséderont des champs name et data.
 
 """Renvoie le nom du noeud."""
 name(node::AbstractNode) = node.name
@@ -28,7 +28,5 @@ data(node::AbstractNode) = node.data
 
 """Affiche un noeud"""
 function show(node::AbstractNode)
-    s = string("Node ", name(node), ", data: ", data(node))
-    println(s)
-    """ """
+    println(string("Node ", name(node), ", data: ", data(node)))
 end
