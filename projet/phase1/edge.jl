@@ -13,13 +13,13 @@ Example:
 
 mutable struct Edge{T} <: AbstractEdge{T}
     bounds::Vector{Node{T}}
-    weight::Int64
+    weight::Float64
 end
 
 # we assume that all the edges coming from AbstractEdge have 'name' and 'weight'.
 
 """return the bounds of the edge."""
-bounds_edge(edge::AbstractEdge) = name.(edge.bounds)
+bounds_edge(edge::AbstractEdge) = edge.bounds
 
 """Return the weight of the edge."""
 weight(edge::AbstractEdge) = edge.weight
