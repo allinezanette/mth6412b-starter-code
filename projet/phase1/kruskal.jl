@@ -14,13 +14,17 @@ rank = Dict()
 #The function creates a new set whose only member is node
 function make_set!(node)
     paren[node] = node
+	@test paren[node]==node
     rank[node] = 0
+	@test rank[node]==0
 end
 #=A recursive function that returns a pointer to the representative of the
 unique set containing node=#
 function find_Set!(node)
     if paren[node] != node
+		@test paren[node] != node
         paren[node] = find_Set!(paren[node])
+		@test paren[node] == find_Set!(paren[node])
     end
     return paren[node]
 end
@@ -29,14 +33,21 @@ end
 That is the union of the two sets=#
 function union!(node1,node2)
     root1 = find_Set!(node1)
+	@test root1 == find_Set!(node1)
     root2 = find_Set!(node2)
+	@test root2 = find_Set!(node2)
     if root1 != root2
+		@test root1 != root2
         if rank[root1] > rank[root2]
+			@test rank[root1] > rank[root2]
             paren[root2] = root1
+			@test paren[root2] ==root1
         else
 			paren[root1] = root2
+			@test paren[root1] == root2
         end
         if rank[root1] == rank[root2]
+			@test rank[root1] == rank[root2]
 			 rank[root2] += 1
         end
     end
@@ -61,8 +72,10 @@ function kruskal!(graph)
     for edge in l
 		weight, node1, node2= edge
 		if find_Set!(node1) != find_Set!(node2)
+			@test find_Set!(node1) != find_Set!(node2)
 			union!(node1, node2)
 			push!(minimum_spanning_tree, edge)
+			@test edge in minimum_spanning_tree
 		end
 	end
     return (minimum_spanning_tree)
